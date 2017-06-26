@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -36,6 +37,7 @@ public class ListeActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private List<Voiture> listeVoiture;
     private ListeVoitureAdapter adapter;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,16 @@ public class ListeActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         listViewVoiture = (ListView) findViewById(R.id.list_voiture);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RefreshList task = new RefreshList();
+                task.execute();
+            }
+
+        });
 
         listeVoiture = new ArrayList<>();
         this.adapter = new ListeVoitureAdapter(ListeActivity.this, R.layout.ligne_voiture, listeVoiture);
@@ -94,13 +106,14 @@ public class ListeActivity extends AppCompatActivity {
                                     listeVoiture.addAll(response);
                                     adapter.notifyDataSetChanged();
                                 }
+                                swipeContainer.setRefreshing(false);
 
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         String json = new String(error.networkResponse.data);
-
+                        swipeContainer.setRefreshing(false);
                         Toast.makeText(ListeActivity.this, R.string.erreur_recuperation_liste, Toast.LENGTH_SHORT);
                     }
                 });
