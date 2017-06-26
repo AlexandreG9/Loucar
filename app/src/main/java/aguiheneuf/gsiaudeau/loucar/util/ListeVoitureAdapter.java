@@ -55,6 +55,11 @@ public class ListeVoitureAdapter extends ArrayAdapter {
         TextView immatriculationVoitureListe = (TextView) view.findViewById(R.id.immatriculation_voiture_liste);
         TextView etatVoitureListe = (TextView) view.findViewById(R.id.etat_voiture_liste);
 
+        nomVoitureListe.setText(v.nom);
+        marqueVoitureListe.setText(v.marque.nom);
+        immatriculationVoitureListe.setText(v.immatriculation);
+        etatVoitureListe.setText(v.etat.toString());
+
         return view;
     }
 }
