@@ -3,7 +3,7 @@
     package="aguiheneuf.gsiaudeau.loucar">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,14 +15,18 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ListeActivity"
             android:label="@string/title_activity_liste"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AjoutActivity"
+            android:label="@string/title_activity_ajout"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
