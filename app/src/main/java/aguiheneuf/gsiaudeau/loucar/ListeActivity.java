@@ -1,0 +1,115 @@
+package aguiheneuf.gsiaudeau.loucar;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import aguiheneuf.gsiaudeau.loucar.model.Voiture;
+import aguiheneuf.gsiaudeau.loucar.util.Constant;
+import aguiheneuf.gsiaudeau.loucar.util.ListeVoitureAdapter;
+import aguiheneuf.gsiaudeau.loucar.util.Network;
+
+public class ListeActivity extends AppCompatActivity {
+
+    private Toolbar toolbar;
+    private ListView listViewVoiture;
+    private FloatingActionButton fab;
+    private List<Voiture> listeVoiture;
+    private ListeVoitureAdapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_liste);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        listViewVoiture = (ListView) findViewById(R.id.list_voiture);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        listeVoiture = new ArrayList<>();
+        this.adapter = new ListeVoitureAdapter(ListeActivity.this, R.layout.ligne_voiture, listeVoiture);
+        listViewVoiture.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        RefreshList task = new RefreshList();
+        task.execute();
+    }
+
+    private class RefreshList extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            if (Network.isNetworkAvailable(ListeActivity.this)) {
+                // Instantiate the RequestQueue.
+                RequestQueue queue = Volley.newRequestQueue(ListeActivity.this);
+                String url = Constant.URL_ALL_VOITURE;
+                // on affiche un loader pour faire patienter l'utilisateur
+
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String json) {
+                                Gson gson = new Gson();
+                                Type listType = new TypeToken<ArrayList<Voiture>>() {
+                                }.getType();
+                                List<Voiture> response = gson.fromJson(json, listType);
+                                if (response != null && response.size() > 0) {
+                                    listeVoiture.clear();
+                                    listeVoiture.addAll(response);
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String json = new String(error.networkResponse.data);
+
+                        Toast.makeText(ListeActivity.this, R.string.erreur_recuperation_liste, Toast.LENGTH_SHORT);
+                    }
+                });
+                // Add the request to the RequestQueue.
+                queue.add(stringRequest);
+            } else {
+                Toast.makeText(ListeActivity.this, R.string.erreur_internet, Toast.LENGTH_LONG).show();
+            }
+            return true;
+        }
+    }
+}
