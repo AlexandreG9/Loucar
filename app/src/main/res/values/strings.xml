@@ -1,6 +1,7 @@
-<resources>
+    <resources>
     <string name="app_name">Loucar</string>
     <string name="title_activity_liste">ListeActivity</string>
+        <string name="title_activity_voiture_detail">VoitureDetailActivity</string>
     <string name="erreur_recuperation_liste">Erreur lors de la récupération de la liste</string>
     <string name="erreur_internet">Vous devez être connecté</string>
     <string name="title_activity_ajout">Ajouter une voiture</string>

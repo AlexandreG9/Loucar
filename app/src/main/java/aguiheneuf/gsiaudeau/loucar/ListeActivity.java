@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -73,6 +74,14 @@ public class ListeActivity extends AppCompatActivity {
         listeVoiture = new ArrayList<>();
         this.adapter = new ListeVoitureAdapter(ListeActivity.this, R.layout.ligne_voiture, listeVoiture);
         listViewVoiture.setAdapter(adapter);
+
+        listViewVoiture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(ListeActivity.this, VoitureDetailActivity.class);
+                startActivityForResult(intent, i);
+            }
+        });
     }
 
     @Override
@@ -82,6 +91,7 @@ public class ListeActivity extends AppCompatActivity {
         RefreshList task = new RefreshList();
         task.execute();
     }
+
 
     private class RefreshList extends AsyncTask<Void, Void, Boolean> {
 
