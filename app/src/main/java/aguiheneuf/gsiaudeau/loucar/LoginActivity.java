@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
         public void OnClickConnect(View view) {
-        Intent intent = new Intent(LoginActivity.this, ListeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("id", "abcd");
         Ressource = "Connecté";
         // Inflate the menu; this adds items to the action bar if it is present.
