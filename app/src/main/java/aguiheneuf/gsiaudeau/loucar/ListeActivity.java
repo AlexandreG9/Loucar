@@ -8,6 +8,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -86,13 +89,30 @@ public class ListeActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_liste, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_filtrer:
+                // TODO ouvrir la popup de selection du filtre
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
         RefreshList task = new RefreshList();
         task.execute();
     }
-
 
     private class RefreshList extends AsyncTask<Void, Void, Boolean> {
 

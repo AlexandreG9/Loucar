@@ -6,4 +6,9 @@
     <string name="erreur_internet">Vous devez être connecté</string>
     <string name="title_activity_ajout">Ajouter une voiture</string>
     <string name="action_settings">Settings</string>
-</resources>
+        <string name="save">Sauvegarde</string>
+        <string name="message_save">Sauvegarde en cours...</string>
+        <string name="impossible_convertir_json">Impossible de convertir l\'objet en json</string>
+        <string name="erreur_save">Erreur lors de l\'enregistrement</string>
+        <string name="save_success">Voiture ajouté</string>
+    </resources>
