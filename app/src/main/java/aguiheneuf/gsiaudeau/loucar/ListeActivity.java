@@ -79,7 +79,8 @@ public class ListeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(ListeActivity.this, VoitureDetailActivity.class);
-                startActivityForResult(intent, i);
+                intent.putExtra("id", listeVoiture.get(i).id);
+                startActivity(intent);
             }
         });
     }
