@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -49,12 +50,6 @@ public class VoitureDetailActivity extends AppCompatActivity {
         GetVoiture task = new GetVoiture();
         task.execute(id);
 
-        marque = (TextView) findViewById(R.id.marque);
-        modele = (TextView) findViewById(R.id.modele);
-        imageVoiture = (ImageView) findViewById(R.id.imageVoiture);
-        prixJour = (TextView) findViewById(R.id.prix_jour);
-        etat = (TextView) findViewById(R.id.etat);
-        immatriculation = (TextView) findViewById(R.id.immatriculation);
     }
 
 
@@ -85,6 +80,8 @@ public class VoitureDetailActivity extends AppCompatActivity {
                                     voitureActuelle = response;
 
                                     // TODO : Appeler methode pour rafraichissement de l'ihm
+                                    setIHM(voitureActuelle);
+
                                 }
                             }
                         }, new Response.ErrorListener() {
@@ -101,6 +98,24 @@ public class VoitureDetailActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    private void setIHM(Voiture voit){
+        marque = (TextView) findViewById(R.id.marque);
+        modele = (TextView) findViewById(R.id.modele);
+        imageVoiture = (ImageView) findViewById(R.id.imageVoiture);
+        prixJour = (TextView) findViewById(R.id.prix_jour);
+        etat = (TextView) findViewById(R.id.etat);
+        immatriculation = (TextView) findViewById(R.id.immatriculation);
+
+        modele.setText(voit.nom.toString());
+        marque.setText(voit.marque.toString() + " : ");
+        immatriculation.setText(voit.immatriculation.toString());
+        Picasso.with(VoitureDetailActivity.this).load(voit.marque.imageLogo.toString()).into(imageVoiture);
+        prixJour.setText(String.valueOf(voit.prix));
+        etat.setText(voit.etat.toString());
+
+
     }
 
 }

@@ -5,28 +5,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/marque"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Marque :" />
 
-    <TextView
-        android:id="@+id/modele"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Modele" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/marque"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Marque :" />
+
+        <TextView
+            android:id="@+id/modele"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modele" />
+
+
+    </LinearLayout>
+
+
 
     <ImageView
         android:id="@+id/imageVoiture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         app:srcCompat="@drawable/key_car" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lblPrix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Prix" />
 
         <TextView
             android:id="@+id/prix_jour"
@@ -43,9 +61,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/etat"
-            android:layout_width="match_parent"
+            android:id="@+id/lblEtat"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Etat" />
+
+        <TextView
+            android:id="@+id/etat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="etat" />
 
     </LinearLayout>
@@ -57,11 +83,38 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/lblImmatriculation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Immatriculation" />
+
+        <TextView
             android:id="@+id/immatriculation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="immatriculation" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rendre" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Louer" />
     </LinearLayout>
 
 
