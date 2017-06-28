@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,16 @@ public class FragmentListeVoiture extends Fragment {
     private ListeVoitureAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
 
+    protected long idAgence;
+
+
+    public static FragmentListeVoiture newInstance(long idAgence) {
+        FragmentListeVoiture f = new FragmentListeVoiture();
+        Bundle args = new Bundle();
+        args.putLong("idAgence", idAgence);
+        f.setArguments(args);
+        return f;
+    }
 
     public FragmentListeVoiture() {
 
@@ -57,6 +68,9 @@ public class FragmentListeVoiture extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(getArguments() != null){
+            this.idAgence = getArguments().getLong("idAgence");
+        }
     }
 
     @Override
@@ -115,7 +129,7 @@ public class FragmentListeVoiture extends Fragment {
         super.onResume();
 
         RefreshList task = new RefreshList();
-        task.execute();
+        task.execute(this.idAgence);
     }
 
     @Override
@@ -128,14 +142,15 @@ public class FragmentListeVoiture extends Fragment {
         super.onDetach();
     }
 
-    private class RefreshList extends AsyncTask<Void, Void, Boolean> {
+    private class RefreshList extends AsyncTask<Long, Void, Boolean> {
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(Long... params) {
             if (Network.isNetworkAvailable(getActivity())) {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
-                String url = Constant.URL_ALL_VOITURE;
+                String url = String.format(Constant.URL_ALL_VOITURE_BY_AGENCE, idAgence);
+                Log.d("DEBUG", "Création de l'url : " + url);
                 // on affiche un loader pour faire patienter l'utilisateur
 
                 // Request a string response from the provided URL.

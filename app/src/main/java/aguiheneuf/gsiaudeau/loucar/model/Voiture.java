@@ -2,9 +2,9 @@ package aguiheneuf.gsiaudeau.loucar.model;
 
 public class Voiture {
 
-
 	public long id;
 
+	public Agence agence;
 	public String nom;
 	public String immatriculation;
 	public double prix;
@@ -12,5 +12,4 @@ public class Voiture {
 	public Marque marque;
 
 	public EtatVoiture etat;
-
 }

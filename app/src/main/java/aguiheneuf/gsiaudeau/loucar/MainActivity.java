@@ -1,5 +1,6 @@
 package aguiheneuf.gsiaudeau.loucar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,6 +15,8 @@ import aguiheneuf.gsiaudeau.loucar.fragment.statistique.StatistiqueFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private long idAgence;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -22,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_liste_voiture:
                     changeNameActionBar(getString(R.string.list_voiture));
-                    switchFragment(new FragmentListeVoiture());
+                    switchFragment(FragmentListeVoiture.newInstance(idAgence));
                     return true;
                 case R.id.navigation_locations:
                     changeNameActionBar(getString(R.string.location_titre));
@@ -46,8 +49,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        // Récupération de l'agence
+        Intent intent = getIntent();
+        this.idAgence = intent.getLongExtra("idAgence", -1l);
+
         changeNameActionBar(getString(R.string.list_voiture));
-        switchFragment(new FragmentListeVoiture());
+        switchFragment(FragmentListeVoiture.newInstance(idAgence));
     }
 
     private void switchFragment(Fragment fragment) {

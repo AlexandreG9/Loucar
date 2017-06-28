@@ -17,13 +17,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
-        public void OnClickConnect(View view) {
+    public void OnClickConnect(View view) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("id", "abcd");
+        intent.putExtra("idAgence", 3l);
         Ressource = "Connecté";
         // Inflate the menu; this adds items to the action bar if it is present.
         Toast.makeText(LoginActivity.this, Ressource, Toast.LENGTH_SHORT).show();
-            startActivity(intent);
+
+        startActivity(intent);
     }
 
 }
