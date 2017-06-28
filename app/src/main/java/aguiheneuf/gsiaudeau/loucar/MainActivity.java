@@ -12,6 +12,7 @@ import android.widget.TextView;
 import aguiheneuf.gsiaudeau.loucar.fragment.liste.FragmentListeVoiture;
 import aguiheneuf.gsiaudeau.loucar.fragment.location.LocationFragment;
 import aguiheneuf.gsiaudeau.loucar.fragment.statistique.StatistiqueFragment;
+import aguiheneuf.gsiaudeau.loucar.model.Location;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_locations:
                     changeNameActionBar(getString(R.string.location_titre));
-                    switchFragment(new LocationFragment());
+                    switchFragment(LocationFragment.newInstance(idAgence));
                     return true;
                 case R.id.navigation_statistiques:
                     changeNameActionBar(getString(R.string.statistiques));

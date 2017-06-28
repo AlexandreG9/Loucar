@@ -31,4 +31,5 @@
     <string name="list_voiture">Liste des voitures</string>
     <string name="location_titre">Locations</string>
     <string name="statistiques">Statistiques</string>
+    <string name="jusqu_au">jusqu\'au</string>
 </resources>

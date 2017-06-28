@@ -81,7 +81,6 @@ public class VoitureDetailActivity extends AppCompatActivity {
 
                                     // TODO : Appeler methode pour rafraichissement de l'ihm
                                     setIHM(voitureActuelle);
-
                                 }
                             }
                         }, new Response.ErrorListener() {

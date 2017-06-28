@@ -14,4 +14,5 @@ public class Constant {
     public final static String URL_ALL_AGENCE = URL_BASE + "/agence/findAll";
     public final static String URL_RENDRE_VOITURE = URL_BASE + "/voiture/rendre/id/%s"; // POST
     public final static String URL_ALL_VOITURE_BY_AGENCE = URL_BASE + "/voiture/findAll/idAgence/%s";
+    public final static String URL_ALL_LOCATION_BY_AGENCE = URL_BASE + "/location/findAll/idAgence/%s";
 }
