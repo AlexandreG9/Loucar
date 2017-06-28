@@ -9,5 +9,7 @@ public class Client {
 	public String telephone;
 	public String email;
 	public String adresse;
+	public String ville;
+	public String codePostal;
 
 }
