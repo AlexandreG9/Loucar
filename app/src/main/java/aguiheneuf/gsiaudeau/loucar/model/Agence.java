@@ -6,8 +6,6 @@ public class Agence {
 
 	public long id;
 
-	public long idAgence;
-
 	public String nom;
 
 	public List<Voiture> listeVoiture;

@@ -11,5 +11,7 @@ public class Voiture {
 
 	public Marque marque;
 
+	public Image image;
+
 	public EtatVoiture etat;
 }

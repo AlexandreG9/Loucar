@@ -1,18 +1,22 @@
 package aguiheneuf.gsiaudeau.loucar;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,11 +35,14 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import aguiheneuf.gsiaudeau.loucar.model.Agence;
 import aguiheneuf.gsiaudeau.loucar.model.EtatVoiture;
+import aguiheneuf.gsiaudeau.loucar.model.Image;
 import aguiheneuf.gsiaudeau.loucar.model.Marque;
 import aguiheneuf.gsiaudeau.loucar.model.Voiture;
 import aguiheneuf.gsiaudeau.loucar.util.Constant;
@@ -54,14 +61,21 @@ public class AjoutActivity extends AppCompatActivity {
     private EditText prixVoitureAjout;
     private FloatingActionButton fab;
     private EditText immatriculationVoitureAjout;
+    private Button boutonPrendrePhotoAjout;
+    private ImageView imageVewAjout;
 
     private List<Marque> listeMarque;
     ArrayAdapter<Marque> adapter;
 
     protected Dialog progressDialog;
 
+    private long idAgence;
+
     private Voiture voiture;
     private final EtatVoiture etat = EtatVoiture.DISPONIBLE;
+    Bitmap imageVoiture;
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +83,9 @@ public class AjoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ajout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent i = getIntent();
+        idAgence = i.getLongExtra("idAgence", -1l);
 
         this.progressDialog = FastDialog.showProgressDialog(AjoutActivity.this, "Sauvegarde en cours...");
 
@@ -84,6 +101,19 @@ public class AjoutActivity extends AppCompatActivity {
         prixVoitureAjout = (EditText) findViewById(R.id.prix_voiture_ajout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         immatriculationVoitureAjout = (EditText) findViewById(R.id.immatriculation_voiture_ajout);
+        boutonPrendrePhotoAjout = (Button) findViewById(R.id.bouton_prendre_photo_ajout);
+        imageVewAjout = (ImageView) findViewById(R.id.image_vew_ajout);
+
+        boutonPrendrePhotoAjout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +152,18 @@ public class AjoutActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageVoiture = (Bitmap) extras.get("data");
+            imageVewAjout.setImageBitmap(imageVoiture);
+        }
+
+    }
+
     public void onClickAjout(View view) {
         voiture = new Voiture();
 
@@ -138,8 +180,18 @@ public class AjoutActivity extends AppCompatActivity {
             } catch (Exception e){
 
             }
+            Image i = new Image();
+            if(imageVoiture !=null){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                imageVoiture.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                i.image = byteArray;
+            }
             voiture.immatriculation = immatriculation;
             voiture.etat = etat;
+            voiture.image = i;
+            voiture.agence = new Agence();
+            voiture.agence.id = idAgence;
 
             appelApi();
         }
@@ -162,6 +214,8 @@ public class AjoutActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(AjoutActivity.this, R.string.impossible_convertir_json, Toast.LENGTH_LONG).show();
             }
+
+            Log.d("DEBUG", jsonObj.toString());
 
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObj,
                     new Response.Listener<JSONObject>() {

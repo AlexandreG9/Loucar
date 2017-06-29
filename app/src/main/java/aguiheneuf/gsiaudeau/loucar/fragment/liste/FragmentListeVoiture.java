@@ -96,6 +96,7 @@ public class FragmentListeVoiture extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AjoutActivity.class);
+                intent.putExtra("idAgence", idAgence);
                 startActivity(intent);
             }
         });

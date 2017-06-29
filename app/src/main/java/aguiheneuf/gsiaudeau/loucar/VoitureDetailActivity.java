@@ -110,7 +110,8 @@ public class VoitureDetailActivity extends AppCompatActivity {
         modele.setText(voit.nom.toString());
         marque.setText(voit.marque.toString() + " : ");
         immatriculation.setText(voit.immatriculation.toString());
-        Picasso.with(VoitureDetailActivity.this).load(voit.marque.imageLogo.toString()).into(imageVoiture);
+        String urlImage = String.format(Constant.URL_GET_IMAGE_BY_ID_VOITURE, voit.id);
+        Picasso.with(VoitureDetailActivity.this).load(urlImage).into(imageVoiture);
         prixJour.setText(String.valueOf(voit.prix));
         etat.setText(voit.etat.toString());
 

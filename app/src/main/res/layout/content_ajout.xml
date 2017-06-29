@@ -99,6 +99,21 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <Button
+                android:id="@+id/bouton_prendre_photo_ajout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Prendre une photo" />
+
+            <ImageView
+                android:id="@+id/image_vew_ajout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
